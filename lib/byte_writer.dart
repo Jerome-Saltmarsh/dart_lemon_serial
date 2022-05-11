@@ -48,9 +48,8 @@ class ByteWriter {
 
   void writeInt(num value){
     final abs = value.toInt().abs();
-    _buffer[_index] = (value >= 0 ? 100 : 0) + abs ~/ 100;
-    _buffer[_index + 1] = abs % 100;
-    _index += 2;
+    writeByte((value >= 0 ? 100 : 0) + abs ~/ 100);
+    writeByte(abs % 100);
   }
 
   void writeByte(int value){

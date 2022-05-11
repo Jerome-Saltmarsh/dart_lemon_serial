@@ -11,10 +11,8 @@ class ByteReader {
 
   int readInt(){
     assert (index < values.length + 1);
-    final a = values[index];
-    final value = (a < 100 ? -1 : 1) * ((a % 100) * 100 + values[index + 1]);
-    index += 2;
-    return value;
+    final a = readByte();
+    return (a < 100 ? -1 : 1) * ((a % 100) * 100 + readByte());
   }
 
   int readPositiveInt(){
