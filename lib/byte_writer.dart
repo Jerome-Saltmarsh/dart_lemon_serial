@@ -5,7 +5,7 @@ import 'dart:typed_data';
 
 class ByteWriter {
   var _index = 0;
-  final _buffer = Uint8List(50000);
+  final _buffer = Uint8List(70000);
   final _buffers = <int, Uint8List>{};
 
   List<int> writeToSendBuffer() {
@@ -38,6 +38,12 @@ class ByteWriter {
     final newBuffer = Uint8List(newBufferLength);
     _buffers[bufferIndex] = newBuffer;
     return newBuffer;
+  }
+
+  /// A positive int can be up to 256^2
+  void writePositiveInt(num value){
+    writeByte(value ~/ 256);
+    writeByte(value.toInt() % 256);
   }
 
   void writeInt(num value){
