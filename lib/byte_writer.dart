@@ -8,7 +8,7 @@ class ByteWriter {
   final _buffer = Uint8List(70000);
   final _buffers = <int, Uint8List>{};
 
-  List<int> writeToSendBuffer() {
+  Uint8List writeToSendBuffer() {
     final sendBuffer = _getSendBuffer();
     for (var i = 0; i < _index; i++) {
       sendBuffer[i] = _buffer[i];
@@ -30,7 +30,7 @@ class ByteWriter {
     }
   }
 
-  List<int> _getSendBuffer() {
+  Uint8List _getSendBuffer() {
     final bufferIndex = _index ~/ 100;
     final buffer = _buffers[bufferIndex];
     if (buffer != null) return buffer;
