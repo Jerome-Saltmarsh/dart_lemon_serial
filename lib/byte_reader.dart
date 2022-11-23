@@ -1,13 +1,12 @@
 
 import 'dart:convert';
+import 'dart:typed_data';
 
 class ByteReader {
   var index = 0;
-  var values = <int>[];
+  late Uint8List values;
 
-  bool readBool(){
-    return readByte() == 1;
-  }
+  bool readBool() => readByte() == 1;
 
   int readInt(){
     assert (index < values.length + 1);
@@ -15,13 +14,9 @@ class ByteReader {
     return (a < 100 ? -1 : 1) * ((a % 100) * 100 + readByte());
   }
 
-  int readPositiveInt(){
-    return (readByte() * 256) + readByte();
-  }
+  int readUInt16() =>(readByte() * 256) + readByte();
 
-  double readDouble(){
-    return readInt().toDouble();
-  }
+  double readDouble() => readInt().toDouble();
 
   String readString() {
     final length = readInt();
@@ -34,6 +29,7 @@ class ByteReader {
 
   int readByte(){
     assert (index < values.length);
-    return values[index++];
+    index++;
+    return values[index - 1];
   }
 }
