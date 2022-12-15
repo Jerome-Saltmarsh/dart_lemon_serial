@@ -14,6 +14,8 @@ class ByteReader {
     return (a < 100 ? -1 : 1) * ((a % 100) * 100 + readByte());
   }
 
+  double readUDouble16() =>readUInt16().toDouble();
+  
   int readUInt16() =>(readByte() * 256) + readByte();
 
   double readDouble() => readInt().toDouble();
@@ -25,6 +27,15 @@ class ByteReader {
     final start = index;
     index += length;
     return utf8.decode(values.sublist(start, start + length));
+  }
+  
+  List<int> readBytes(int length){
+    assert (index + length < values.length);
+    final bytes = Uint8List(length);
+    for (var i = 0; i < length; i++){
+      bytes[i] = readByte();
+    }
+    return bytes;
   }
 
   int readByte(){

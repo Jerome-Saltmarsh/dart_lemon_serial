@@ -12,10 +12,6 @@ class ByteWriter {
   final _buffer100 = Uint8List(100);
   final _buffer150 = Uint8List(150);
   final _buffer200 = Uint8List(200);
-  // final _buffer300 = Uint8List(300);
-  // final _buffer400 = Uint8List(400);
-  // final _buffer500 = Uint8List(500);
-  // final _buffer600 = Uint8List(600);
 
   Uint8List writeToSendBuffer() {
     final sendBuffer = _getSendBuffer();
@@ -44,10 +40,6 @@ class ByteWriter {
     if (_index < 100) return _buffer100;
     if (_index < 150) return _buffer150;
     if (_index < 200) return _buffer200;
-    // if (_index < 300) return _buffer300;
-    // if (_index < 400) return _buffer400;
-    // if (_index < 500) return _buffer500;
-    // if (_index < 600) return _buffer600;
 
     final bufferIndex = _index ~/ 100;
     final buffer = _buffers[bufferIndex];
