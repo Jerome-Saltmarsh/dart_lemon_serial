@@ -55,15 +55,43 @@ class ByteWriter {
     writeByte(value % 256);
   }
 
+  void writeUInt16s(List<int> values){
+     for (var i = 0; i < values.length; i++) {
+       writeUInt16(values[i]);
+     }
+  }
+
+  void writeUDouble16(double value){
+    writeUInt16(value.toInt());
+  }
+
   void writeInt(num value){
     final abs = value.toInt().abs();
     writeByte((value >= 0 ? 100 : 0) + abs ~/ 100);
     writeByte(abs % 100);
   }
 
+  void writeBytes(List<int> bytes){
+    for (var i = 0; i < bytes.length; i++){
+      writeByte(bytes[i]);
+    }
+  }
+
   void writeByte(int value){
     assert(value <= 256);
     assert(value >= 0);
     _buffer[_index++] = value;
+  }
+
+  void resetIndex(){
+    _index = 0;
+  }
+
+  Uint8List compile(){
+    final compiled = Uint8List(_index);
+    for (var i = 0; i < _index; i++){
+      compiled[i] = _buffer[i];
+    }
+    return compiled;
   }
 }

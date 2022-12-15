@@ -4,7 +4,7 @@ import 'dart:typed_data';
 
 class ByteReader {
   var index = 0;
-  late Uint8List values;
+  late List<int> values;
 
   bool readBool() => readByte() == 1;
 
@@ -14,7 +14,17 @@ class ByteReader {
     return (a < 100 ? -1 : 1) * ((a % 100) * 100 + readByte());
   }
 
+  Uint16List readUInt16s(int length){
+     final values = Uint16List(length);
+     for (var i = 0; i < length; i++){
+       values[i] = readUInt16();
+     }
+     return values;
+  }
+
   double readUDouble16() =>readUInt16().toDouble();
+
+
   
   int readUInt16() =>(readByte() * 256) + readByte();
 
