@@ -14,7 +14,7 @@ class ByteReader {
     return (a < 100 ? -1 : 1) * ((a % 100) * 100 + readByte());
   }
 
-  Uint16List readUInt16s(int length){
+  Uint16List readUint16List(int length){
      final values = Uint16List(length);
      for (var i = 0; i < length; i++){
        values[i] = readUInt16();

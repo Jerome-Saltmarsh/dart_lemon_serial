@@ -50,12 +50,7 @@ class ByteWriter {
     return newBuffer;
   }
 
-  void writeUInt16(int value){
-    writeByte(value ~/ 256);
-    writeByte(value % 256);
-  }
-
-  void writeUInt16s(List<int> values){
+  void writeUint16List(List<int> values){
      for (var i = 0; i < values.length; i++) {
        writeUInt16(values[i]);
      }
@@ -63,6 +58,11 @@ class ByteWriter {
 
   void writeUDouble16(double value){
     writeUInt16(value.toInt());
+  }
+
+  void writeUInt16(int value){
+    writeByte(value ~/ 256);
+    writeByte(value % 256);
   }
 
   void writeInt(num value){
