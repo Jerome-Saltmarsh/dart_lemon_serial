@@ -61,8 +61,9 @@ class ByteWriter {
   }
 
   void writeUInt16(int value){
-    writeByte(value ~/ 256);
-    writeByte(value % 256);
+    assert (value < 65536);
+    writeByte((value & 0xFF00) >> 8);
+    writeByte((value & 0xff));
   }
 
   void writeInt(num value){
