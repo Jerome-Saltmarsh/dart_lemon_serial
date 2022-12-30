@@ -52,8 +52,9 @@ class ByteWriter {
     return newBuffer;
   }
 
-  void writeUint16List(List<int> values){
-     for (var i = 0; i < values.length; i++) {
+  void writeUint16List(List<int> values) {
+    final length = values.length;
+     for (var i = 0; i < length; i++) {
        writeUInt16(values[i]);
      }
   }
