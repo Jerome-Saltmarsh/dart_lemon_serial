@@ -12,6 +12,7 @@ class ByteWriter {
   final _buffer100 = Uint8List(100);
   final _buffer150 = Uint8List(150);
   final _buffer200 = Uint8List(200);
+  final _buffer300 = Uint8List(300);
 
   Uint8List writeToSendBuffer() {
     final sendBuffer = _getSendBuffer();
@@ -27,7 +28,7 @@ class ByteWriter {
   }
 
   void writeString(String value){
-    writeInt(value.length);
+    writeUInt16(value.length);
     if (value.length == 0) return;
     final encoded = utf8.encode(value);
     for(final character in encoded){
@@ -40,6 +41,7 @@ class ByteWriter {
     if (_index < 100) return _buffer100;
     if (_index < 150) return _buffer150;
     if (_index < 200) return _buffer200;
+    if (_index < 300) return _buffer300;
 
     final bufferIndex = _index ~/ 100;
     final buffer = _buffers[bufferIndex];
@@ -60,25 +62,61 @@ class ByteWriter {
     writeUInt16(value.toInt());
   }
 
+  /// writes a signed integer between -127 and 127 using 2 bytes
+  void writeInt8(int value){
+    assert (value > -128);
+    assert (value <  128);
+    if (value < 0) {
+      writeUInt8(-value);
+    } else {
+      writeUInt8(value | 0x80);
+    }
+  }
+
+  /// writes a signed integer between -32768 and 32768 using 2 bytes
+  void writeInt16(int value){
+     assert (value > -32768);
+     assert (value <  32768);
+
+     if (value > 0) {
+       writeUInt8(((value >> 8) & 0xff | 0x80));
+       writeUInt8((value & 0xff));
+     } else {
+       writeUInt8((-value >> 8) & 0x7f);
+       writeUInt8((-value & 0xff));
+     }
+  }
+
+  /// writes an unsigned integer
+  /// max value is 65536
   void writeUInt16(int value){
     assert (value < 65536);
+    assert (value >= 0000);
     writeByte((value & 0xFF00) >> 8);
     writeByte((value & 0xff));
   }
 
-  void writeInt(num value){
-    final abs = value.toInt().abs();
-    writeByte((value >= 0 ? 100 : 0) + abs ~/ 100);
-    writeByte(abs % 100);
-  }
+  // void writeInt(num value){
+  //   final abs = value.toInt().abs();
+  //   writeByte((value >= 0 ? 100 : 0) + abs ~/ 100);
+  //   writeByte(abs % 100);
+  // }
 
-  void writeBytes(List<int> bytes){
-    for (var i = 0; i < bytes.length; i++){
+  void writeBytes(List<int> bytes) {
+    final length = bytes.length;
+    for (var i = 0; i < length; i++){
       writeByte(bytes[i]);
     }
   }
 
   void writeByte(int value){
+    assert(value <= 256);
+    assert(value >= 0);
+    _buffer[_index++] = value;
+  }
+
+
+  void writeUInt8(int value){
     assert(value <= 256);
     assert(value >= 0);
     _buffer[_index++] = value;
