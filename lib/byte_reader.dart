@@ -4,17 +4,11 @@ import 'dart:typed_data';
 
 class ByteReader {
   var index = 0;
-  late List<int> values;
+  var values = Uint8List(0);
 
   bool readBool() => readByte() == 1;
 
-  // int readInt(){
-  //   assert (index < values.length + 1);
-  //   final a = readByte();
-  //   return (a < 100 ? -1 : 1) * ((a % 100) * 100 + readByte());
-  // }
-
-  Uint16List readUint16List(int length){
+  Uint16List readUint16List(int length) {
      final values = Uint16List(length);
      for (var i = 0; i < length; i++){
        values[i] = readUInt16();
@@ -22,9 +16,9 @@ class ByteReader {
      return values;
   }
 
-  double readUDouble16() =>readUInt16().toDouble();
+  double readUDouble16() => readUInt16().toDouble();
 
-  int readUInt16() =>(readByte() * 256) + readByte();
+  int readUInt16() =>(readByte() << 8) + readByte();
 
   /// reads a signed integer between -127 and 127 using 2 bytes
   int readInt8(){
@@ -56,8 +50,8 @@ class ByteReader {
     index += length;
     return utf8.decode(values.sublist(start, start + length));
   }
-  
-  List<int> readBytes(int length){
+
+  Uint8List readBytes(int length){
     assert (index + length < values.length);
     final bytes = Uint8List(length);
     for (var i = 0; i < length; i++){
@@ -68,13 +62,11 @@ class ByteReader {
 
   int readByte(){
     assert (index < values.length);
-    index++;
-    return values[index - 1];
+    return values[index++];
   }
 
   int readUInt8(){
     assert (index < values.length);
-    index++;
-    return values[index - 1];
+    return values[index++];
   }
 }
