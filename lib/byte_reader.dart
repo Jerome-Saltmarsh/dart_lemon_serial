@@ -4,7 +4,7 @@ import 'dart:typed_data';
 
 class ByteReader {
   var index = 0;
-  var values = Uint8List(0);
+  var values = <int>[];
 
   bool readBool() => readByte() == 1;
 
