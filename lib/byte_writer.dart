@@ -54,12 +54,20 @@ class ByteWriter {
      }
   }
 
-  /// writes an unsigned integer
-  /// max value is 65536
+  /// writes a 16 bit unsigned integer with a max value of 65536
   void writeUInt16(int value){
     assert (value < 65536);
     assert (value >= 0000);
     writeUInt8((value & 0xFF00) >> 8);
+    writeUInt8((value & 0xff));
+  }
+
+  /// writes a 24 bit unsigned integer with a max value of 16777216
+  void writeUInt24(int value){
+    assert (value < 16777216);
+    assert (value >= 0000);
+    writeUInt8((value >> 16) & 0xff);
+    writeUInt8((value >> 08) & 0xff);
     writeUInt8((value & 0xff));
   }
 

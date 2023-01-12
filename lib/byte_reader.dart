@@ -20,6 +20,8 @@ class ByteReader {
 
   int readUInt16() =>(readByte() << 8) + readByte();
 
+  int readUInt24() =>(readByte() << 16) + (readByte() << 8) + readByte();
+
   /// reads a signed integer between -127 and 127 using 2 bytes
   int readInt8(){
     final value = readUInt8();

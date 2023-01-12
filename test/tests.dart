@@ -55,6 +55,41 @@ void main() {
       expect(reader.readUInt16(), value);
     });
 
+    test('readWriteUInt24(0)', () {
+      final value = 0;
+      writer.writeUInt24(value);
+      reader.values = writer.compile();
+      expect(reader.readUInt24(), value);
+    });
+
+    test('readWriteUInt24(100)', () {
+      final value = 100;
+      writer.writeUInt24(value);
+      reader.values = writer.compile();
+      expect(reader.readUInt24(), value);
+    });
+
+    test('readWriteUInt24(10000)', () {
+      final value = 10000;
+      writer.writeUInt24(value);
+      reader.values = writer.compile();
+      expect(reader.readUInt24(), value);
+    });
+
+    test('readWriteUInt24(100000)', () {
+      final value = 100000;
+      writer.writeUInt24(value);
+      reader.values = writer.compile();
+      expect(reader.readUInt24(), value);
+    });
+
+    test('readWriteUInt24(1000000)', () {
+      final value = 1000000;
+      writer.writeUInt24(value);
+      reader.values = writer.compile();
+      expect(reader.readUInt24(), value);
+    });
+
     test('readWriteInt16(0)', () {
       final value = 0;
       writer.writeInt16(value);
