@@ -8,12 +8,28 @@ class ByteReader {
 
   bool readBool() => readByte() == 1;
 
+  Uint8List readUint8List(int length) {
+     final values = Uint8List(length);
+     for (var i = 0; i < length; i++){
+       values[i] = readUInt8();
+     }
+     return values;
+  }
+
   Uint16List readUint16List(int length) {
      final values = Uint16List(length);
      for (var i = 0; i < length; i++){
        values[i] = readUInt16();
      }
      return values;
+  }
+
+  List<int> readUint24List(int length) {
+    final values = Uint32List(length);
+    for (var i = 0; i < length; i++){
+      values[i] = readUInt24();
+    }
+    return values;
   }
 
   double readUDouble16() => readUInt16().toDouble();

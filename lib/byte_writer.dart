@@ -19,10 +19,24 @@ class ByteWriter {
     }
   }
 
+  void writeUint8List(List<int> values) {
+    final length = values.length;
+     for (var i = 0; i < length; i++) {
+       writeUInt8(values[i]);
+     }
+  }
+
   void writeUint16List(List<int> values) {
     final length = values.length;
      for (var i = 0; i < length; i++) {
        writeUInt16(values[i]);
+     }
+  }
+
+  void writeUint24List(List<int> values) {
+    final length = values.length;
+     for (var i = 0; i < length; i++) {
+       writeUInt24(values[i]);
      }
   }
 
