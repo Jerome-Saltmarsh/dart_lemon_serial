@@ -31,8 +31,6 @@ class ByteReader {
     return values;
   }
 
-  double readUDouble16() => readUInt16().toDouble();
-
   int readUInt16() => (readByte() << 8) + readByte();
 
   int readUInt24() =>
@@ -48,8 +46,6 @@ class ByteReader {
     final b = readByte();
     return (a > 127) ? ((a & 0x7F) << 8) + b : -((a << 8) + b);
   }
-
-  double readDouble() => readInt16().toDouble();
 
   String readString() {
     final length = readUInt16();

@@ -38,10 +38,6 @@ class ByteWriter {
     }
   }
 
-  void writeUDouble16(double value) {
-    writeUInt16(value.toInt());
-  }
-
   void writeInt8(int value) {
     assert(value > -128);
     assert(value < 128);
