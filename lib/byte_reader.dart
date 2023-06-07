@@ -1,32 +1,31 @@
-
 import 'dart:convert';
 import 'dart:typed_data';
 
 class ByteReader {
   var index = 0;
-  var values = <int>[];
+  late List<int> values;
 
   bool readBool() => readByte() == 1;
 
   Uint8List readUint8List(int length) {
-     final values = Uint8List(length);
-     for (var i = 0; i < length; i++){
-       values[i] = readUInt8();
-     }
-     return values;
+    final values = Uint8List(length);
+    for (var i = 0; i < length; i++) {
+      values[i] = readUInt8();
+    }
+    return values;
   }
 
   Uint16List readUint16List(int length) {
-     final values = Uint16List(length);
-     for (var i = 0; i < length; i++){
-       values[i] = readUInt16();
-     }
-     return values;
+    final values = Uint16List(length);
+    for (var i = 0; i < length; i++) {
+      values[i] = readUInt16();
+    }
+    return values;
   }
 
   List<int> readUint24List(int length) {
     final values = Uint32List(length);
-    for (var i = 0; i < length; i++){
+    for (var i = 0; i < length; i++) {
       values[i] = readUInt24();
     }
     return values;
@@ -34,28 +33,20 @@ class ByteReader {
 
   double readUDouble16() => readUInt16().toDouble();
 
-  int readUInt16() =>(readByte() << 8) + readByte();
+  int readUInt16() => (readByte() << 8) + readByte();
 
-  int readUInt24() =>(readByte() << 16) + (readByte() << 8) + readByte();
+  int readUInt24() =>
+      (readByte() << 16) + (readByte() << 8) + readByte();
 
-  /// reads a signed integer between -127 and 127 using 2 bytes
-  int readInt8(){
+  int readInt8() {
     final value = readUInt8();
-    if (value > 127){
-      return value & 0x7F;
-    } else {
-      return -value;
-    }
+    return (value > 127) ? (value & 0x7F) : -value;
   }
 
-  /// reads a signed integer between -32768 and 32768 using 2 bytes
-  int readInt16(){
+  int readInt16() {
     final a = readByte();
     final b = readByte();
-    if (a > 127) {
-      return ((a & 0x7f) << 8) + b;
-    }
-    return -((a << 8) + b);
+    return (a > 127) ? ((a & 0x7F) << 8) + b : -((a << 8) + b);
   }
 
   double readDouble() => readInt16().toDouble();
@@ -63,28 +54,15 @@ class ByteReader {
   String readString() {
     final length = readUInt16();
     if (length == 0) return "";
-    assert (index + length < values.length);
     final start = index;
     index += length;
     return utf8.decode(values.sublist(start, start + length));
   }
 
-  Uint8List readBytes(int length){
-    assert (index + length < values.length);
-    final bytes = Uint8List(length);
-    for (var i = 0; i < length; i++){
-      bytes[i] = readByte();
-    }
-    return bytes;
-  }
+  Uint8List readBytes(int length) =>
+      Uint8List.view(Uint8List.fromList(values).buffer, index, length);
 
-  int readByte(){
-    assert (index < values.length);
-    return values[index++];
-  }
+  int readByte() => values[index++];
 
-  int readUInt8(){
-    assert (index < values.length);
-    return values[index++];
-  }
+  int readUInt8() => values[index++];
 }

@@ -1,6 +1,6 @@
 name: lemon_byte
 description: Utility library for writing and reading to a byte array
-version: 1.0.39
+version: 1.0.40
 homepage: https://github.com/Jerome-Saltmarsh/dart-lemon-byte
 
 environment:
