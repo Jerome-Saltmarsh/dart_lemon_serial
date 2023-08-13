@@ -31,7 +31,7 @@ class ByteReader {
     return values;
   }
 
-  List<int> readUint32List(int length) {
+  Uint32List readUint32List(int length) {
     final values = Uint32List(length);
     for (var i = 0; i < length; i++) {
       values[i] = readUInt32();
