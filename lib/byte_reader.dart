@@ -31,10 +31,24 @@ class ByteReader {
     return values;
   }
 
+  List<int> readUint32List(int length) {
+    final values = Uint32List(length);
+    for (var i = 0; i < length; i++) {
+      values[i] = readUInt32();
+    }
+    return values;
+  }
+
   int readUInt16() => (readByte() << 8) + readByte();
 
   int readUInt24() =>
       (readByte() << 16) + (readByte() << 8) + readByte();
+
+  int readUInt32() =>
+      (readByte() << 24) +
+      (readByte() << 16) +
+      (readByte() << 8) +
+      readByte();
 
   int readInt8() {
     final value = readUInt8();
@@ -55,8 +69,12 @@ class ByteReader {
     return utf8.decode(values.sublist(start, start + length));
   }
 
-  Uint8List readBytes(int length) =>
-      Uint8List.view(Uint8List.fromList(values).buffer, index, length);
+
+  Uint8List readBytes(int length) {
+    final bytes = Uint8List.view(Uint8List.fromList(values).buffer, index, length);
+    index += length;
+    return bytes;
+  }
 
   int readByte() => values[index++];
 

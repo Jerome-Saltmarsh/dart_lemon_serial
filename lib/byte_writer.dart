@@ -38,6 +38,13 @@ class ByteWriter {
     }
   }
 
+  void writeUint32List(List<int> values) {
+    final length = values.length;
+    for (var i = 0; i < length; i++) {
+      writeUInt32(values[i]);
+    }
+  }
+
   void writeInt8(int value) {
     assert(value > -128);
     assert(value < 128);
@@ -70,6 +77,14 @@ class ByteWriter {
   void writeUInt24(int value) {
     assert(value < 16777216);
     assert(value >= 0);
+    writeUInt8((value >> 16) & 0xff);
+    writeUInt8((value >> 8) & 0xff);
+    writeUInt8((value & 0xff));
+  }
+
+  void writeUInt32(int value) {
+    assert(value >= 0);
+    writeUInt8((value >> 24) & 0xff);
     writeUInt8((value >> 16) & 0xff);
     writeUInt8((value >> 8) & 0xff);
     writeUInt8((value & 0xff));

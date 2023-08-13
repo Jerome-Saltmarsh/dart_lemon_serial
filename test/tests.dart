@@ -90,6 +90,20 @@ void main() {
       expect(reader.readUInt24(), value);
     });
 
+    test('readWriteInt8(5)', () {
+      final value = 5;
+      writer.writeInt8(value);
+      reader.values = writer.compile();
+      expect(reader.readInt8(), value);
+    });
+
+    test('readWriteInt8(-5)', () {
+      final value = -5;
+      writer.writeInt8(value);
+      reader.values = writer.compile();
+      expect(reader.readInt8(), value);
+    });
+
     test('readWriteInt16(0)', () {
       final value = 0;
       writer.writeInt16(value);
