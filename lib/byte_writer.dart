@@ -1,7 +1,7 @@
 import 'dart:convert' show utf8;
 import 'dart:typed_data';
 
-class ByteWriter {
+mixin class ByteWriter {
   final _builder = BytesBuilder();
 
   void writeBool(bool value) => writeUInt8(value ? 1 : 0);
