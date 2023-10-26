@@ -9,20 +9,13 @@ class ByteWriter {
   void clear() => _builder.clear();
 
   void writeString(String value) {
-    writeUInt16(value.length);
-    if (value.length == 0) return;
-    final encoded = utf8.encode(value);
-    for (final character in encoded) {
-      writeUInt8(character);
-    }
+    final length = value.length;
+    writeUInt16(length);
+    if (length == 0) return;
+    writeUint8List(utf8.encode(value));
   }
 
-  void writeUint8List(List<int> values) {
-    final length = values.length;
-    for (var i = 0; i < length; i++) {
-      writeUInt8(values[i]);
-    }
-  }
+  void writeUint8List(List<int> values) => _builder.add(values);
 
   void writeUint16List(List<int> values) {
     final length = values.length;

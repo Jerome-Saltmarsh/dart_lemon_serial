@@ -78,5 +78,7 @@ class ByteReader {
 
   int readByte() => values[index++];
 
-  int readUInt8() => values[index++];
+  int readUInt8() {
+    return values[index++];
+  }
 }
