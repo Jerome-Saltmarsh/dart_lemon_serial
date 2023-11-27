@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
-class ByteReader {
+mixin class ByteReader {
   var index = 0;
   late List<int> values;
 
@@ -68,7 +68,6 @@ class ByteReader {
     index += length;
     return utf8.decode(values.sublist(start, start + length));
   }
-
 
   Uint8List readBytes(int length) {
     final bytes = Uint8List.view(Uint8List.fromList(values).buffer, index, length);
