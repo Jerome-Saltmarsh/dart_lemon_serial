@@ -5,6 +5,14 @@ mixin class ByteReader {
   var index = 0;
   late List<int> values;
 
+  int? tryReadByte() => tryRead(readByte);
+
+  int? tryReadUInt16() => tryRead(readUInt16);
+
+  String? tryReadString() => tryRead(readString);
+
+  T? tryRead<T>(T Function() read) => readBool() ? read() : null;
+
   bool readBool() => readByte() == 1;
 
   Uint8List readUint8List(int length) {

@@ -7,6 +7,25 @@ mixin class ByteWriter {
   void writeBool(bool value) => writeUInt8(value ? 1 : 0);
 
   void clear() => _builder.clear();
+  
+  void tryWriteByte(int? value) =>
+      tryWrite(writeByte, value);
+
+  void tryWriteUInt16(int? value) =>
+      tryWrite(writeUInt16, value);
+
+  void tryWrite<T>(Function(T t) write, T? value){
+    if (value == null){
+      writeFalse();
+      return;
+    }
+    writeTrue();
+    write(value);
+  }
+
+  void writeTrue() => writeBool(true);
+
+  void writeFalse() => writeBool(false);
 
   void writeString(String value) {
     final length = value.length;
